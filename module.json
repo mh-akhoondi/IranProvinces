@@ -1,0 +1,14 @@
+{
+    "name": "IranProvinces",
+    "alias": "iranprovinces",
+    "description": "ماژول مدیریت استان‌ها و شهرهای ایران برای Worksuite",
+    "keywords": ["worksuite", "iran", "provinces", "cities"],
+    "version": "1.0.0",
+    "priority": 0,
+    "providers": [
+        "Modules\\IranProvinces\\Providers\\IranProvincesServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
