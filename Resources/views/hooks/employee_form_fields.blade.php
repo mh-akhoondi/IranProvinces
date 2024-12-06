@@ -9,12 +9,13 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6">
-                        <x-forms.select 
+                       <x-forms.select
                             fieldId="birth_province_id"
                             :fieldLabel="__('iranprovinces::app.birth_province')"
                             fieldName="birth_province_id"
                             :fieldRequired="config('iranprovinces.forms.employee.required_fields.birth_place')"
-                            search="true">
+                            search="true"
+>
                             <option value="">@lang('app.select') @lang('iranprovinces::app.province')</option>
                             @foreach($provinces as $province)
                                 <option value="{{ $province->id }}"
