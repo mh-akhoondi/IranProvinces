@@ -2,44 +2,42 @@
 
 namespace Modules\IranProvinces\Database\Seeders;
 
-use Illuminate\Database\Seeders;
+use Illuminate\Database\Seeder;
 use Modules\IranProvinces\Models\Province;
 use Modules\IranProvinces\Models\City;
 use Illuminate\Support\Facades\DB;
 
-class IranProvincesSeeder extends Seeders
+class IranProvincesSeeder extends Seeder
 {
-    // کد قبلی با اصلاح متدها
     public function run()
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         
         City::truncate();
         Province::truncate();
         
-        // فعال کردن مجدد foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
 
         foreach ($this->provinces as $provinceName => $cities) {
-            // ایجاد استان
             $province = Province::create([
                 'name' => $provinceName,
                 'is_active' => true
             ]);
 
-            // ایجاد شهرهای هر استان
             foreach ($cities as $cityName) {
                 City::create([
                     'province_id' => $province->id,
                     'name' => $cityName,
                     'is_active' => true
-                ]); 
+                ]);
             }
+
+            $this->command->info("استان {$provinceName} و شهرهای آن با موفقیت ثبت شد.");
         }
+
+        $this->command->info('تمام استان‌ها و شهرها با موفقیت ثبت شدند.');
     }
-    /**
-     * لیست استان‌ها و شهرهای ایران
-     */
+
     private $provinces = [
         'آذربایجان شرقی' => [
             'تبریز', 'مراغه', 'میانه', 'اهر', 'سراب', 'مرند', 'بناب', 'بستان‌آباد', 'شبستر', 'آذرشهر',
@@ -158,35 +156,4 @@ class IranProvincesSeeder extends Seeders
             'یزد', 'میبد', 'اردکان', 'بافق', 'ابرکوه', 'مهریز', 'خاتم', 'اشکذر', 'تفت', 'بهاباد'
         ]
     ];
-
-    /**
-     * اجرای سیدر
-     */
-    public function run()
-    {
-        // پاک کردن اطلاعات قبلی
-        City::truncate();
-        Province::truncate();
-
-        foreach ($this->provinces as $provinceName => $cities) {
-            // ایجاد استان
-            $province = Province::create([
-                'name' => $provinceName,
-                'is_active' => true
-            ]);
-
-            // ایجاد شهرهای هر استان
-            foreach ($cities as $cityName) {
-                City::create([
-                    'province_id' => $province->id,
-                    'name' => $cityName,
-                    'is_active' => true
-                ]);
-            }
-
-            $this->command->info("استان {$provinceName} و شهرهای آن با موفقیت ثبت شد.");
-        }
-
-        $this->command->info('تمام استان‌ها و شهرها با موفقیت ثبت شدند.');
-    }
 }
