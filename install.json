@@ -1,0 +1,19 @@
+{
+    "name": "IranProvinces",
+    "alias": "iranprovinces",
+    "description": "ماژول استان‌ها و شهرهای ایران برای WorkSuite",
+    "version": "1.0.0",
+    "worksuite_version": "^5.0",
+    "minimum_php": "8.1",
+    "author": "tamhis",
+    "files": [
+        "Database/Migrations",
+        "Database/Seeders",
+        "Http/Controllers",
+        "Http/Requests",
+        "Models",
+        "Resources/views",
+        "Routes"
+    ],
+    "provider": "Modules\\IranProvinces\\Providers\\IranProvincesServiceProvider"
+}
