@@ -1,14 +1,43 @@
 <?php
-// Database/Seeders/IranProvincesSeeder.php
 
 namespace Modules\IranProvinces\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB; // اضافه کردن این خط
 use Modules\IranProvinces\Models\Province;
 use Modules\IranProvinces\Models\City;
 
 class IranProvincesSeeder extends Seeder
 {
+    public function run()
+    {
+        // غیرفعال کردن foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        
+        // پاک کردن اطلاعات قبلی
+        City::query()->delete();
+        Province::query()->delete();
+        
+        // فعال کردن مجدد foreign key checks
+        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+
+        foreach ($this->provinces as $provinceName => $cities) {
+            // ایجاد استان
+            $province = Province::create([
+                'name' => $provinceName,
+                'is_active' => true
+            ]);
+
+            // ایجاد شهرهای هر استان
+            foreach ($cities as $cityName) {
+                City::create([
+                    'province_id' => $province->id,
+                    'name' => $cityName,
+                    'is_active' => true
+                ]);
+            }
+        }
+    }
     /**
      * لیست استان‌ها و شهرهای ایران
      */
