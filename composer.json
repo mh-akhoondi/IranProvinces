@@ -1,24 +1,28 @@
 {
-    "name": "worksuite/iranprovinces",
-    "description": "Iran Provinces and Cities Management for Worksuite",
+    "name": "WorkSuite/iran-provinces",
+    "description": "Iran Provinces and Cities Module for WorkSuite",
+    "type": "laravel-module",
+    "license": "MIT",
     "authors": [
         {
-            "name": "Your Name",
-            "email": "your.email@example.com"
+            "name": "tamhis",
+            "email": "info@tamhis.ir"
         }
     ],
-    "extra": {
-        "laravel": {
-            "providers": [
-                "Modules\\IranProvinces\\Providers\\IranProvincesServiceProvider"
-            ]
-        }
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0"
     },
     "autoload": {
         "psr-4": {
             "Modules\\IranProvinces\\": ""
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\IranProvinces\\Providers\\IranProvincesServiceProvider"
+            ]
+        }
+    }
 }
