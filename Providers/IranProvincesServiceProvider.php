@@ -1,3 +1,4 @@
+<?php
 // Providers/IranProvincesServiceProvider.php
 
 namespace Modules\IranProvinces\Providers;

@@ -1,3 +1,4 @@
+<?php
 // Resources/lang/en/app.php
 
 return [

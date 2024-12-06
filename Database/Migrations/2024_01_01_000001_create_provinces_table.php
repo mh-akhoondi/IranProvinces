@@ -1,36 +1,43 @@
-// Database/Migrations/2024_01_01_000001_create_provinces_table.php
-
 <?php
-
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+// Database/Migrations/2024_01_01_000001_create_provinces_table.php
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateProvincesTable extends Migration
 {
-    /**
-     * اجرای مهاجرت
-     */
     public function up()
     {
         Schema::create('provinces', function (Blueprint $table) {
-            $table->id();                    // شناسه یکتا
-            $table->string('name');          // نام استان
-            $table->boolean('is_active')     // وضعیت فعال/غیرفعال
-                  ->default(true);
-            $table->timestamps();            // created_at و updated_at
-            
-            // ایجاد ایندکس برای جستجوی سریع‌تر
-            $table->index('name');
-            $table->index('is_active');
+            $table->id();
+            $table->string('name');
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
         });
     }
 
-    /**
-     * برگرداندن مهاجرت
-     */
     public function down()
     {
         Schema::dropIfExists('provinces');
+    }
+}
+
+// Database/Migrations/2024_01_01_000002_create_cities_table.php
+class CreateCitiesTable extends Migration
+{
+    public function up()
+    {
+        Schema::create('cities', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('province_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->boolean('is_active')->default(true);
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('cities');
     }
 }

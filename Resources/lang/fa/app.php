@@ -1,3 +1,4 @@
+<?php
 // Resources/lang/fa/app.php
 
 return [
