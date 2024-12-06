@@ -1,87 +1,83 @@
-// Resources/views/provinces/edit.blade.php
-@extends('admin.layouts.app')
-
-@section('title', 'ویرایش استان')
+@extends('layouts.app')
 
 @section('content')
-    {{-- کارت اصلی فرم --}}
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">ویرایش استان: {{ $province->name }}</h4>
-                </div>
-                <div class="card-body">
-                    {{-- شروع فرم --}}
-                    <form action="{{ route('admin.provinces.update', $province->id) }}" method="POST" id="province-form">
-                        @csrf
-                        @method('PUT')
-
-                        {{-- نام استان --}}
-                        <div class="form-group">
-                            <label for="name">نام استان <span class="text-danger">*</span></label>
-                            <input type="text" 
-                                   class="form-control @error('name') is-invalid @enderror" 
-                                   id="name" 
-                                   name="name" 
-                                   value="{{ old('name', $province->name) }}" 
-                                   required>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        {{-- وضعیت فعال/غیرفعال --}}
-                        <div class="form-group">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" 
-                                       class="custom-control-input" 
-                                       id="is_active" 
-                                       name="is_active" 
-                                       value="1" 
-                                       {{ old('is_active', $province->is_active) ? 'checked' : '' }}>
-                                <label class="custom-control-label" for="is_active">استان فعال باشد</label>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">ویرایش استان {{ $province->name }}</h4>
+            </div>
+            <div class="card-body">
+                <form id="update-province-data" action="{{ route('provinces.update', $province->id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="name">نام استان</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ $province->name }}" required>
                             </div>
                         </div>
-
-                        {{-- دکمه‌های فرم --}}
-                        <div class="form-group text-right">
-                            <button type="submit" class="btn btn-primary">
-                                <i class="fa fa-save ml-1"></i>
-                                بروزرسانی
-                            </button>
-                            <a href="{{ route('admin.provinces.index') }}" class="btn btn-secondary">
-                                <i class="fa fa-times ml-1"></i>
-                                انصراف
-                            </a>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="is_active">وضعیت</label>
+                                <select class="form-control" id="is_active" name="is_active">
+                                    <option value="1" {{ $province->is_active ? 'selected' : '' }}>فعال</option>
+                                    <option value="0" {{ !$province->is_active ? 'selected' : '' }}>غیرفعال</option>
+                                </select>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">بروزرسانی</button>
+                    <a href="{{ route('provinces.index') }}" class="btn btn-secondary">انصراف</a>
+                </form>
             </div>
         </div>
     </div>
+</div>
 @endsection
 
 @push('scripts')
-    <script>
-        // اعتبارسنجی سمت کلاینت
-        $(document).ready(function() {
-            $("#province-form").validate({
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 2,
-                        maxlength: 255
-                    }
-                },
-                messages: {
-                    name: {
-                        required: "لطفاً نام استان را وارد کنید",
-                        minlength: "نام استان باید حداقل 2 کاراکتر باشد",
-                        maxlength: "نام استان نمی‌تواند بیشتر از 255 کاراکتر باشد"
-                    }
+<script>
+// اسکریپت برای هندل کردن فرم ویرایش با Ajax
+$(document).ready(function() {
+    $('#update-province-data').on('submit', function(e) {
+        e.preventDefault();
+        const url = $(this).attr('action');
+        const data = $(this).serialize();
+
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: data,
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'موفق',
+                        text: response.message,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        window.location.href = "{{ route('provinces.index') }}";
+                    });
                 }
-            });
+            },
+            error: function(xhr) {
+                const errors = xhr.responseJSON.errors;
+                let errorMessage = '';
+                $.each(errors, function(key, value) {
+                    errorMessage += value[0] + '<br>';
+                });
+                
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطا',
+                    html: errorMessage
+                });
+            }
         });
-    </script>
+    });
+});
+</script>
 @endpush
