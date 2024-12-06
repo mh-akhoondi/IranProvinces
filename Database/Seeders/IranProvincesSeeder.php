@@ -3,23 +3,22 @@
 namespace Modules\IranProvinces\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB; // اضافه کردن این خط
 use Modules\IranProvinces\Models\Province;
 use Modules\IranProvinces\Models\City;
+use Illuminate\Support\Facades\DB;
 
 class IranProvincesSeeder extends Seeder
 {
+    // کد قبلی با اصلاح متدها
     public function run()
     {
-        // غیرفعال کردن foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         
-        // پاک کردن اطلاعات قبلی
-        City::query()->delete();
-        Province::query()->delete();
+        City::truncate();
+        Province::truncate();
         
         // فعال کردن مجدد foreign key checks
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         foreach ($this->provinces as $provinceName => $cities) {
             // ایجاد استان
