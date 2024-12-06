@@ -2,12 +2,12 @@
 
 namespace Modules\IranProvinces\Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use Illuminate\Database\Seeders;
 use Modules\IranProvinces\Models\Province;
 use Modules\IranProvinces\Models\City;
 use Illuminate\Support\Facades\DB;
 
-class IranProvincesSeeder extends Seeder
+class IranProvincesSeeder extends Seeders
 {
     // کد قبلی با اصلاح متدها
     public function run()
